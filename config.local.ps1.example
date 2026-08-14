@@ -1,6 +1,7 @@
 # ============================================================
 #  Example personal overrides for DSH Web Launcher.
 #  Copy this file to config.local.ps1 and adjust the values.
+#  Supported browsers: 'chrome', 'edge', or 'firefox'.
 #  config.local.ps1 is gitignored, so your personal settings
 #  never get committed.
 # ============================================================

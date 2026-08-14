@@ -7,12 +7,12 @@
 
 # Proxy: set $UseProxy to $true to route dsh's network traffic through a
 # local HTTP proxy. Leave it $false for a direct connection.
-$UseProxy  = $true
+$UseProxy  = $false
 $ProxyHost = '127.0.0.1'
 $ProxyPort = 7897
 
-# Browser used to open the UI: 'firefox' or 'chrome'.
-$Browser = 'firefox'
+# Browser used to open the UI: 'chrome', 'edge', or 'firefox'.
+$Browser = 'chrome'
 
 # Port that `dsh web` listens on (dsh default is 3080).
 $Port = 3080

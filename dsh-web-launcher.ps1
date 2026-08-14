@@ -48,11 +48,25 @@ function Get-BrowserPath {
               "${env:PROGRAMFILES(x86)}\Google\Chrome\Application\chrome.exe",
               "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe")
         }
+        'edge' {
+            @("$env:PROGRAMFILES\Microsoft\Edge\Application\msedge.exe",
+              "${env:PROGRAMFILES(x86)}\Microsoft\Edge\Application\msedge.exe",
+              "$env:LOCALAPPDATA\Microsoft\Edge\Application\msedge.exe")
+        }
         default { @() }
     }
     foreach ($c in $candidates) { if ($c -and (Test-Path $c)) { return $c } }
-    $cmd = Get-Command $Name -ErrorAction SilentlyContinue
-    if ($cmd) { return $cmd.Source }
+
+    $commandName = switch ($Name) {
+        'firefox' { 'firefox' }
+        'chrome'  { 'chrome' }
+        'edge'    { 'msedge' }
+        default   { $null }
+    }
+    if ($commandName) {
+        $cmd = Get-Command $commandName -ErrorAction SilentlyContinue
+        if ($cmd) { return $cmd.Source }
+    }
     return $null
 }
 
@@ -141,18 +155,32 @@ if (-not $stale) {
 }
 Start-Sleep -Seconds 2
 
-# --- Resolve the browser (fall back to the other one if needed) ---
-$browserPath = Get-BrowserPath -Name $Browser
-if (-not $browserPath) {
-    $fallback = if ($Browser -eq 'firefox') { 'chrome' } else { 'firefox' }
-    $browserPath = Get-BrowserPath -Name $fallback
-    if ($browserPath) {
-        Write-Host ('      Note: {0} not found; will use {1} instead.' -f $Browser, $fallback)
-        $Browser = $fallback
-    } else {
-        Write-Host '      WARNING: no supported browser (Firefox or Chrome) was found.' -ForegroundColor Yellow
-        Write-Host '               Install one to auto-open the UI, or open the URL manually when ready.'
+# --- Resolve the browser (fall back through the supported browser list) ---
+$supportedBrowsers = @('chrome', 'edge', 'firefox')
+if ($Browser -notin $supportedBrowsers) {
+    Write-Host ("      WARNING: unsupported browser '{0}' in config; falling back to chrome." -f $Browser) -ForegroundColor Yellow
+    $Browser = 'chrome'
+}
+
+$configuredBrowser = $Browser
+$browserPath = $null
+$browserOrder = @($configuredBrowser) + @($supportedBrowsers | Where-Object { $_ -ne $configuredBrowser })
+foreach ($candidateBrowser in $browserOrder) {
+    $candidatePath = Get-BrowserPath -Name $candidateBrowser
+    if ($candidatePath) {
+        $browserPath = $candidatePath
+        $Browser = $candidateBrowser
+        break
     }
+}
+
+if ($browserPath) {
+    if ($Browser -ne $configuredBrowser) {
+        Write-Host ('      Note: {0} not found; will use {1} instead.' -f $configuredBrowser, $Browser)
+    }
+} else {
+    Write-Host '      WARNING: no supported browser (Chrome, Edge, or Firefox) was found.' -ForegroundColor Yellow
+    Write-Host '               Install one to auto-open the UI, or open the URL manually when ready.'
 }
 
 # --- [2/3] Boot dsh web in the background, wait for the port, then open the browser ---

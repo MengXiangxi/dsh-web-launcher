@@ -11,10 +11,10 @@ A Windows desktop launcher for **DeepSeek Harness (dsh)**. Double-click to start
 - **One-click startup**: double-click `DSHstart.cmd` (or a desktop shortcut to it) to launch `dsh web` and open the browser automatically
 - **Smart readiness detection**: the service starts in the background while the main thread polls the port — the browser opens only once the service is truly ready, avoiding "the browser opens before the page works"
 - **Configurable proxy**: toggle an HTTP proxy on/off for reaching external model services on restricted networks
-- **Configurable browser**: Firefox or Chrome, with automatic install-path detection
+- **Configurable browser**: Chrome, Edge, or Firefox, with automatic install-path detection
 - **Stale-process cleanup**: terminates leftover dsh processes before launch to free the port
 - **Close-to-stop**: close the launcher window to stop the service — no manual process killing
-- **Dependency self-check**: prints clear install hints when Node.js / dsh are missing; falls back to the other browser automatically, and if neither is found, prompts you to open the URL manually
+- **Dependency self-check**: prints clear install hints when Node.js / dsh are missing; falls back to another supported browser automatically, and if none is found, prompts you to open the URL manually
 
 ## 📋 Prerequisites
 
@@ -24,7 +24,7 @@ A Windows desktop launcher for **DeepSeek Harness (dsh)**. Double-click to start
    npm install -g @deepseek-ai/dsh
    ```
    After install, the `dsh` command (`dsh.cmd`) should be on your PATH. You can also use `npx @deepseek-ai/dsh web` directly.
-3. **A browser**: Firefox or Chrome (either works)
+3. **A browser**: Chrome, Edge, or Firefox (any one works)
 
 > The launcher self-checks these at runtime. If Node.js or dsh is missing it prints the install command; if no browser is found it still starts the service and tells you to open the URL manually.
 
@@ -79,7 +79,7 @@ All options live in a separate **`config.ps1`** file next to the launcher (kept 
 | `$UseProxy` | `$false` | Enable the HTTP proxy |
 | `$ProxyHost` | `127.0.0.1` | Proxy host |
 | `$ProxyPort` | `7897` | Proxy port |
-| `$Browser` | `chrome` | Browser for the UI: `firefox` or `chrome` |
+| `$Browser` | `chrome` | Browser for the UI: `chrome`, `edge`, or `firefox` |
 | `$Port` | `3080` | Port dsh web listens on (dsh default is 3080) |
 | `$StartupTimeoutSec` | `60` | Seconds to wait for the service to become ready |
 
