@@ -6,6 +6,10 @@
 
 > DeepSeek Harness（简称 dsh）是 DeepSeek 开源的 Agent 框架，提供 Web UI / CLI / Headless 三种使用形态，其 Web UI 默认运行在 `http://127.0.0.1:3080`。
 
+## 🎬 使用演示
+
+![DSH Web Launcher 使用演示](./screenshot.gif)
+
 ## ✨ 功能特性
 
 - **一键启动**：双击 `DSHstart.cmd`（或其桌面快捷方式）即可启动 `dsh web` 并自动打开浏览器

@@ -6,6 +6,10 @@ A Windows desktop launcher for **DeepSeek Harness (dsh)**. Double-click to start
 
 > DeepSeek Harness (dsh) is DeepSeek's open-source agent framework, available as a Web UI, CLI, or headless runner. Its Web UI runs at `http://127.0.0.1:3080` by default.
 
+## 🎬 Demo
+
+![DSH Web Launcher demo](./screenshot.gif)
+
 ## ✨ Features
 
 - **One-click startup**: double-click `DSHstart.cmd` (or a desktop shortcut to it) to launch `dsh web` and open the browser automatically
