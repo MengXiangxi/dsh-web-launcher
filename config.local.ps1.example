@@ -1,0 +1,11 @@
+# ============================================================
+#  Example personal overrides for DSH Web Launcher.
+#  Copy this file to config.local.ps1 and adjust the values.
+#  config.local.ps1 is gitignored, so your personal settings
+#  never get committed.
+# ============================================================
+
+$UseProxy  = $true
+$ProxyHost = '127.0.0.1'
+$ProxyPort = 7897
+$Browser   = 'chrome'
